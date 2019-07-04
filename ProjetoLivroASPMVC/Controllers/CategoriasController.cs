@@ -29,5 +29,14 @@ namespace ProjetoLivroASPMVC.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Categoria categoria)
+        {
+            categoria.CategoriaID = categorias.Select(lc => lc.CategoriaID).Max() + 1;
+            categorias.Add(categoria);
+            return RedirectToAction("Index");
+        }
     }
 }
