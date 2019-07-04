@@ -30,7 +30,14 @@ namespace ProjetoLivroASPMVC.Controllers
             return View();
         }
 
+        // GET: Edit
         public ActionResult Edit(long id)
+        {
+            return View(categorias.Where(c => c.CategoriaID == id).First());
+        }
+
+        // GET: Details
+        public ActionResult Details(long id)
         {
             return View(categorias.Where(c => c.CategoriaID == id).First());
         }
