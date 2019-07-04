@@ -43,5 +43,15 @@ namespace ProjetoLivroASPMVC.Controllers
             categorias.Add(categoria);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Categoria categoria)
+        {
+            categorias[categorias.IndexOf(
+                categorias.Where(c => c.CategoriaID == categoria.CategoriaID).First()
+                )] = categoria;
+            return RedirectToAction("Index");
+        }
     }
 }
