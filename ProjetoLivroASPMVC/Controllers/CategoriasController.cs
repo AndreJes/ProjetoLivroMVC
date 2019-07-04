@@ -66,5 +66,13 @@ namespace ProjetoLivroASPMVC.Controllers
                 )] = categoria;
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Categoria categoria)
+        {
+            categorias.Remove(categorias.Where(c => c.CategoriaID == categoria.CategoriaID).First());
+            return RedirectToAction("Index");
+        }
     }
 }
