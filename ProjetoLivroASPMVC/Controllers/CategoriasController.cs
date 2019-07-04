@@ -42,6 +42,12 @@ namespace ProjetoLivroASPMVC.Controllers
             return View(categorias.Where(c => c.CategoriaID == id).First());
         }
 
+        // GET: Delete
+        public ActionResult Delete(long id)
+        {
+            return View(categorias.Where(c => c.CategoriaID == id).First());
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Categoria categoria)
