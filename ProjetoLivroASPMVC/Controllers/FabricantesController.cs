@@ -2,7 +2,9 @@
 using ProjetoLivroASPMVC.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -22,7 +24,23 @@ namespace ProjetoLivroASPMVC.Controllers
             return View();
         }
 
+        // GET: Edit
+        public ActionResult Edit(long? id)
+        {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
+            Fabricante fabricante = context.Fabricantes.Find(id);
+
+            if (fabricante == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(fabricante);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -31,6 +49,20 @@ namespace ProjetoLivroASPMVC.Controllers
             context.Fabricantes.Add(fabricante);
             context.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Fabricante fabricante)
+        {
+            if(ModelState.IsValid)
+            {
+                context.Entry(fabricante).State = EntityState.Modified;
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(fabricante);
         }
     }
 }
