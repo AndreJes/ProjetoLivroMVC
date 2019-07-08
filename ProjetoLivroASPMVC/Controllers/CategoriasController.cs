@@ -110,6 +110,7 @@ namespace ProjetoLivroASPMVC.Controllers
             Categoria categoria = context.Categorias.Find(id);
             context.Categorias.Remove(categoria);
             context.SaveChanges();
+            TempData["Message"] = "Categoria " + categoria.Nome.ToUpper() + " removida com sucesso";
             return RedirectToAction("Index");
         }
     }

@@ -5,8 +5,6 @@
     ViewBag.Title = "Detalhes do FABRICANTE";
 }
 
-<!DOCTYPE html>
-
 <div class="card">
     <div class="card-header bg-primary text-white">
         @ViewBag.Title
@@ -17,7 +15,7 @@
             @Html.LabelFor(model => model.Nome)
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="~/Content/Icons/svg/person.svg" /></span>
+                    <span class="input-group-text"><img src="~/Content/Icons/svg/person.svg" alt="icon name" /></span>
                 </div>
                 @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
             </div>
@@ -25,8 +23,8 @@
     </div>
 
     <div class="card-footer">
-        @Html.ActionLink("Alterar", "Edit", new { id = Model.FabricanteID}, new { @class="btn btn-info"})
-        @Html.ActionLink("Retornar a Lista", "Index", null, new { @class="btn btn-warning"})
+        @Html.ActionLink("Alterar", "Edit", new { id = Model.FabricanteID }, new { @class = "btn btn-info" })
+        @Html.ActionLink("Retornar a Lista", "Index", null, new { @class = "btn btn-warning" })
     </div>
 
 </div>
