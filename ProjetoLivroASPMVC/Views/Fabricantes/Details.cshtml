@@ -1,34 +1,37 @@
 ﻿@model ProjetoLivroASPMVC.Models.Fabricante
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Detalhes do FABRICANTE";
 }
 
 <!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>Fabricante</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Nome)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Nome)
-            </dd>
-    
-        </dl>
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        @ViewBag.Title
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.FabricanteID }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+
+    <div class="card-body">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome)
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><img src="~/Content/Icons/svg/person.svg" /></span>
+                </div>
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        @Html.ActionLink("Alterar", "Edit", new { id = Model.FabricanteID}, new { @class="btn btn-info"})
+        @Html.ActionLink("Retornar a Lista", "Index", null, new { @class="btn btn-warning"})
+    </div>
+
+</div>
+
+@section ScriptPage {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
