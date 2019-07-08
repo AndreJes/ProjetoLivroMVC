@@ -4,8 +4,8 @@
     <meta name="viewport" content="width=device-width,
 initial-scale=1.0" charset="utf-8" />
     <title>@ViewBag.Title</title>
-    <link href="@Url.Content("~/content/bootstrap.css")"
-          rel="stylesheet" />
+    <link href="@Url.Content("~/content/bootstrap.css")" rel="stylesheet" />
+    @RenderSection("Styles", false)
 </head>
 <body>
     <div class="container-fluid">
@@ -22,12 +22,12 @@ initial-scale=1.0" charset="utf-8" />
         <div class="row">
             <div class="col-3 col-md-3 bg-light">
                 <ul class="nav nav-pills flex-column">
-                    <li role="presentation" class="nav-link"><a href="#" class="nav-link bg-info text-dark">Home</a></li>
+                    <li role="presentation" class="nav-link"><a href="#" class="nav-link bg-info text-white">Home</a></li>
                     <li role="presentation" class="nav-link">
-                        @Html.ActionLink("Categorias", "Index", "Categorias", new { }, new { @class="nav-link bg-info text-dark"})
+                        @Html.ActionLink("Categorias", "Index", "Categorias", null, new { @class="nav-link bg-info text-white"})
                     </li>
                     <li role="presentation" class="nav-link">
-                        @Html.ActionLink("Fabricantes","Index", "Fabricantes", new { }, new { @class="nav-link bg-info text-dark"})
+                        @Html.ActionLink("Fabricantes","Index", "Fabricantes", null, new { @class="nav-link bg-info text-white"})
                     </li>
                 </ul>
             </div>
@@ -43,7 +43,10 @@ initial-scale=1.0" charset="utf-8" />
             </div>
         </div>
     </div>
-    <script src="@Url.Content("~/scripts/jquery-1.10.2.js")"></script>
-    <script src="@Url.Content("~/scripts/bootstrap.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/jquery-3.4.1.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.js")"></script>
+
+    @RenderSection("ScriptPage", false)
 </body>
 </html>

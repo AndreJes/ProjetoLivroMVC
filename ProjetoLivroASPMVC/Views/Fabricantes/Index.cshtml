@@ -2,6 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Lista de Fabricantes";
 }
 
 <!DOCTYPE html>
@@ -12,30 +13,59 @@
     <title>Index</title>
 </head>
 <body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.FabricanteID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.FabricanteID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.FabricanteID })
-            </td>
-        </tr>
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            Relação de FABRICANTES registrados
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FabricanteID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nome)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FabricanteID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "Edit", new { id = item.FabricanteID }, new { @class = "btn btn-primary" }) |
+                                @Html.ActionLink("Detalhes", "Details", new { id = item.FabricanteID }, new { @class = "btn btn-info" }) |
+                                @Html.ActionLink("Excluir", "Delete", new { id = item.FabricanteID }, new { @class = "btn btn-danger" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            @Html.ActionLink("Registrar FABRICANTE", "Create", null, new { @class = "btn btn-success" })
+        </div>
+    </div>
+
+    @section styles{
+        <link href="@Url.Content("~/Content/DataTables/css/dataTables.bootstrap4.css")" rel="stylesheet" />
     }
-    
-    </table>
+
+    @section ScriptPage{
+        <script src="@Url.Content("~/Scripts/DataTables/jquery.dataTables.js")"></script>
+        <script src="@Url.Content("~/Scripts/DataTables/dataTables.bootstrap4.js")"></script>
+        <script type="text/javascript">
+            $(document).ready(function () { $('.table').DataTable(); });
+        </script>
+    }
+
 </body>
 </html>

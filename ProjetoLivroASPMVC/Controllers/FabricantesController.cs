@@ -16,7 +16,7 @@ namespace ProjetoLivroASPMVC.Controllers
         // GET: Fabricantes
         public ActionResult Index()
         {
-            return View(context.Fabricantes.OrderBy(f => f.Nome));
+            return View(context.Fabricantes.OrderBy(f => f.FabricanteID));
         }
         // GET: Create
         public ActionResult Create()
