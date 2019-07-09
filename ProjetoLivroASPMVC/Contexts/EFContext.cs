@@ -13,6 +13,9 @@ namespace ProjetoLivroASPMVC.Contexts
         public DbSet<Fabricante> Fabricantes { get; set; }
         public DbSet<Produto> Produtos { get; set; }
 
-        public EFContext() : base("Asp_Net_MVC_CS") { }
+        public EFContext() : base("Asp_Net_MVC_CS")
+        {
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EFContext>());
+        }
     }
 }

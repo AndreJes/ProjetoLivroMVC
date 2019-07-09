@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Data.Entity;
 using ProjetoLivroASPMVC.Contexts;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace ProjetoLivroASPMVC.Controllers
 {
@@ -13,7 +13,8 @@ namespace ProjetoLivroASPMVC.Controllers
         // GET: Produtos
         public ActionResult Index()
         {
-            return View(context.Produtos.OrderBy(p => p.Nome));
+            var produtos = context.Produtos.Include(c => c.Categoria).Include(f => f.Fabricante).OrderBy(n => n.Nome);
+            return View(produtos);
         }
 
         // GET: Produtos/Details/5
