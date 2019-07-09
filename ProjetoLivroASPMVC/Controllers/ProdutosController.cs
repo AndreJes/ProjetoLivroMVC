@@ -4,6 +4,7 @@ using System.Data.Entity;
 using ProjetoLivroASPMVC.Contexts;
 using System.Web.Mvc;
 using System.Linq;
+using ProjetoLivroASPMVC.Models;
 
 namespace ProjetoLivroASPMVC.Controllers
 {
@@ -26,22 +27,24 @@ namespace ProjetoLivroASPMVC.Controllers
         // GET: Produtos/Create
         public ActionResult Create()
         {
+            ViewBag.CategoriaID = new SelectList(context.Categorias.OrderBy(n => n.Nome), "CategoriaID", "Nome");
+            ViewBag.FabricanteID = new SelectList(context.Fabricantes.OrderBy(n => n.Nome), "FabricanteID", "Nome");
             return View();
         }
 
         // POST: Produtos/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Produto produto)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                context.Produtos.Add(produto);
+                context.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(produto);
             }
         }
 
