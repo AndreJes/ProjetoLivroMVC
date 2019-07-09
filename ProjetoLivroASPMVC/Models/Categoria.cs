@@ -10,12 +10,6 @@ namespace ProjetoLivroASPMVC.Models
         public long CategoriaID { get; set; }
         public string Nome { get; set; }
 
-        public Categoria() { }
-
-        public Categoria(long categoriaID, string nome)
-        {
-            CategoriaID = categoriaID;
-            Nome = nome;
-        }
+        public virtual ICollection<Produto> Produtos { get; set; }
     }
 }
