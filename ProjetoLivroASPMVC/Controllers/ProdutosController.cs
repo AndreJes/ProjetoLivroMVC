@@ -5,6 +5,7 @@ using ProjetoLivroASPMVC.Contexts;
 using System.Web.Mvc;
 using System.Linq;
 using ProjetoLivroASPMVC.Models;
+using System.Net;
 
 namespace ProjetoLivroASPMVC.Controllers
 {
@@ -32,6 +33,25 @@ namespace ProjetoLivroASPMVC.Controllers
             return View();
         }
 
+        // GET: Produtos/Edit/5
+        public ActionResult Edit(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Produto produto = context.Produtos.Find(id);
+            if (produto == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.CategoriaID = new SelectList(context.Categorias.OrderBy(p => p.Nome), "CategoriaID", "Nome", produto.CategoriaID);
+            ViewBag.FabricanteID = new SelectList(context.Fabricantes.OrderBy(f => f.Nome), "FabricanteID", "Nome", produto.FabricanteID);
+
+            return View(produto);
+        }
+
         // POST: Produtos/Create
         [HttpPost]
         public ActionResult Create(Produto produto)
@@ -48,25 +68,23 @@ namespace ProjetoLivroASPMVC.Controllers
             }
         }
 
-        // GET: Produtos/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
         // POST: Produtos/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Produto produto)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    context.Entry(produto).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(produto);
             }
             catch
             {
-                return View();
+                return View(produto);
             }
         }
 
