@@ -20,9 +20,21 @@ namespace ProjetoLivroASPMVC.Controllers
         }
 
         // GET: Produtos/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(long? id)
         {
-            return View();
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Produto produto = context.Produtos.Where(p => p.ProdutoID == id).Include(c => c.Categoria).Include(f => f.Fabricante).First();
+
+            if (produto == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(produto);
         }
 
         // GET: Produtos/Create
