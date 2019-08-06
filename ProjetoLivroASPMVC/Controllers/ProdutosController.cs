@@ -64,6 +64,24 @@ namespace ProjetoLivroASPMVC.Controllers
             return View(produto);
         }
 
+        // GET: Produtos/Delete/5
+        public ActionResult Delete(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Produto produto = context.Produtos.Where(p => p.ProdutoID == id).Include(c => c.Categoria).Include(f => f.Fabricante).First();
+
+            if (produto == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(produto);
+        }
+
         // POST: Produtos/Create
         [HttpPost]
         public ActionResult Create(Produto produto)
@@ -98,12 +116,6 @@ namespace ProjetoLivroASPMVC.Controllers
             {
                 return View(produto);
             }
-        }
-
-        // GET: Produtos/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
         }
 
         // POST: Produtos/Delete/5
