@@ -120,12 +120,14 @@ namespace ProjetoLivroASPMVC.Controllers
 
         // POST: Produtos/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(long id)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                Produto produto = context.Produtos.Find(id);
+                context.Produtos.Remove(produto);
+                context.SaveChanges();
+                TempData["Message"] = "PRODUTO " + produto.Nome.ToUpper() + " foi removido";
                 return RedirectToAction("Index");
             }
             catch
