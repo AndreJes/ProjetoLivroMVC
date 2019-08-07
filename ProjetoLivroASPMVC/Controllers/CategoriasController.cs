@@ -52,7 +52,7 @@ namespace ProjetoLivroASPMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Categoria categoria = context.Categorias.Find(id);
+            Categoria categoria = context.Categorias.Where(c => c.CategoriaID == id).Include("Produtos.Fabricante").First();
 
             if (categoria == null)
             {

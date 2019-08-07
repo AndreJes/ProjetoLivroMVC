@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="card-header bg-primary text-white">
-        PRODUTOS registrados deste Fabricante
+        PRODUTOS registrados nesta Categoria
     </div>
 
     <div class="card-body">
@@ -11,7 +11,7 @@
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.ProdutoID)</th>
                     <th>@Html.DisplayNameFor(model => model.Nome)</th>
-                    <th>Categoria</th>
+                    <th>Fabricante</th>
                     <th></th>
                 </tr>
             </thead>
@@ -26,7 +26,7 @@
                             @Html.DisplayFor(modelItem => item.Nome)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Categoria.Nome)
+                            @Html.DisplayFor(modelItem => item.Fabricante.Nome)
                         </td>
                         <td>
                             @Html.ActionLink("Alterar", "Edit", "Produtos", new { id = item.ProdutoID }, new { @class = "btn btn-primary" })
