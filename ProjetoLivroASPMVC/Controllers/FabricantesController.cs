@@ -1,5 +1,6 @@
-﻿using ProjetoLivroASPMVC.Contexts;
-using ProjetoLivroASPMVC.Models;
+﻿using Persistencia.Contexts;
+using Modelo.Cadastros;
+using Modelo.Tabelas;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,7 +9,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ProjetoLivroASPMVC.Controllers
+namespace Persistencia.Controllers
 {
     public class FabricantesController : Controller
     {

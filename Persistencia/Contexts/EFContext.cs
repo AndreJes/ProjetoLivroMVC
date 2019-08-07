@@ -1,11 +1,13 @@
-﻿using ProjetoLivroASPMVC.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
+using Modelo.Cadastros;
+using Modelo.Tabelas;
 
-namespace ProjetoLivroASPMVC.Contexts
+namespace Persistencia.Contexts
 {
     public class EFContext : DbContext
     {
@@ -16,6 +18,12 @@ namespace ProjetoLivroASPMVC.Contexts
         public EFContext() : base("Asp_Net_MVC_CS")
         {
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EFContext>());
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }
 }

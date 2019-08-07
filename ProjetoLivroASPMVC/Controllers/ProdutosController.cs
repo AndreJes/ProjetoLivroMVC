@@ -1,121 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using ProjetoLivroASPMVC.Contexts;
+﻿using System.Data.Entity;
 using System.Web.Mvc;
 using System.Linq;
-using ProjetoLivroASPMVC.Models;
+using Modelo.Cadastros;
 using System.Net;
+using Serviços.Cadastros;
+using Serviços.Tabelas;
 
-namespace ProjetoLivroASPMVC.Controllers
+namespace Persistencia.Controllers
 {
     public class ProdutosController : Controller
     {
-        private EFContext context = new EFContext();
+        private ProdutoServico _produtoServico = new ProdutoServico();
+        private FabricanteServico _fabricanteServico = new FabricanteServico();
+        private CategoriaServico _categoriaServico = new CategoriaServico();
+
         // GET: Produtos
         public ActionResult Index()
         {
-            var produtos = context.Produtos.Include(c => c.Categoria).Include(f => f.Fabricante).OrderBy(n => n.Nome);
-            return View(produtos);
+            return View(_produtoServico.ObterProdutosOrdenadosPorNome());
         }
 
         // GET: Produtos/Details/5
         public ActionResult Details(long? id)
         {
-            if(id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Produto produto = context.Produtos.Where(p => p.ProdutoID == id).Include(c => c.Categoria).Include(f => f.Fabricante).First();
-
-            if (produto == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(produto);
+            return ObterVisaoProdutoPorId(id);
         }
 
         // GET: Produtos/Create
         public ActionResult Create()
         {
-            ViewBag.CategoriaID = new SelectList(context.Categorias.OrderBy(n => n.Nome), "CategoriaID", "Nome");
-            ViewBag.FabricanteID = new SelectList(context.Fabricantes.OrderBy(n => n.Nome), "FabricanteID", "Nome");
+            PopularViewBag();
             return View();
         }
 
         // GET: Produtos/Edit/5
         public ActionResult Edit(long? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Produto produto = context.Produtos.Find(id);
-            if (produto == null)
-            {
-                return HttpNotFound();
-            }
-
-            ViewBag.CategoriaID = new SelectList(context.Categorias.OrderBy(p => p.Nome), "CategoriaID", "Nome", produto.CategoriaID);
-            ViewBag.FabricanteID = new SelectList(context.Fabricantes.OrderBy(f => f.Nome), "FabricanteID", "Nome", produto.FabricanteID);
-
-            return View(produto);
+            PopularViewBag(_produtoServico.ObterProdutoPorId((long)id));
+            return ObterVisaoProdutoPorId(id);
         }
 
         // GET: Produtos/Delete/5
         public ActionResult Delete(long? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Produto produto = context.Produtos.Where(p => p.ProdutoID == id).Include(c => c.Categoria).Include(f => f.Fabricante).First();
-
-            if (produto == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(produto);
+            return ObterVisaoProdutoPorId(id);
         }
 
         // POST: Produtos/Create
         [HttpPost]
         public ActionResult Create(Produto produto)
         {
-            try
-            {
-                context.Produtos.Add(produto);
-                context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View(produto);
-            }
+            return GravarProduto(produto);
         }
 
         // POST: Produtos/Edit/5
         [HttpPost]
         public ActionResult Edit(Produto produto)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    context.Entry(produto).State = EntityState.Modified;
-                    context.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                return View(produto);
-            }
-            catch
-            {
-                return View(produto);
-            }
+            return GravarProduto(produto);
         }
 
         // POST: Produtos/Delete/5
@@ -124,15 +66,60 @@ namespace ProjetoLivroASPMVC.Controllers
         {
             try
             {
-                Produto produto = context.Produtos.Find(id);
-                context.Produtos.Remove(produto);
-                context.SaveChanges();
+                Produto produto = _produtoServico.EliminarProdutoPorId(id);
                 TempData["Message"] = "PRODUTO " + produto.Nome.ToUpper() + " foi removido";
                 return RedirectToAction("Index");
             }
             catch
             {
                 return View();
+            }
+        }
+
+        private ActionResult ObterVisaoProdutoPorId(long? id)
+        {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Produto produto = _produtoServico.ObterProdutoPorId((long) id);
+
+            if (produto == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(produto);
+        }
+
+        private void PopularViewBag(Produto produto = null)
+        {
+            if(produto == null)
+            {
+                ViewBag.CategoriaId = new SelectList(_categoriaServico.ObterCategoriasOrdenadasPorNome(), "CategoriaId", "Nome");
+                ViewBag.FabricanteId = new SelectList(_fabricanteServico.ObterFabricantesOrdenadosPorNome(), "FabricanteId", "Nome");
+            }
+            else
+            {
+                ViewBag.CategoriaId = new SelectList(_categoriaServico.ObterCategoriasOrdenadasPorNome(), "CategoriaId", "Nome", produto.CategoriaID);
+                ViewBag.FabricanteId = new SelectList(_fabricanteServico.ObterFabricantesOrdenadosPorNome(), "FabricanteId", "Nome", produto.FabricanteID);
+            }
+        }
+
+        private ActionResult GravarProduto(Produto produto)
+        {
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    _produtoServico.GravarProduto(produto);
+                }
+                return View(produto);
+            }
+            catch
+            {
+                return View(produto);
             }
         }
     }

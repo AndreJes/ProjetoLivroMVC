@@ -1,4 +1,4 @@
-﻿@model ProjetoLivroASPMVC.Models.Produto
+﻿@model Modelo.Cadastros.Produto
 
 @{
     ViewBag.Title = "Excluir PRODUTO";
@@ -11,35 +11,7 @@
     </div>
 
     <div class="card-body">
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nome)
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="~/Content/Icons/svg/person.svg" alt="icon name" /></span>
-                </div>
-                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fabricante)
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="~/Content/Icons/svg/person.svg" alt="icon name" /></span>
-                </div>
-                @Html.EditorFor(model => model.Fabricante.Nome, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Categoria)
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="~/Content/Icons/svg/person.svg" alt="icon name" /></span>
-                </div>
-                @Html.EditorFor(model => model.Categoria.Nome, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
-            </div>
-        </div>
+        @Html.Partial("~/Views/Produtos/_PartialDetailsContentPanel.cshtml")
     </div>
 
     <div class="card-footer">
