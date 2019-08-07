@@ -2,33 +2,59 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Excluir FABRICANTE";
+    ViewBag.Title = "Excluir CATEGORIA";
 }
 
-<div class="card">
-    <div class="card-header bg-primary text-white">
-        @ViewBag.Title
-    </div>
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            @ViewBag.Title
+        </div>
 
-    <div class="card-body">
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nome)
-            <br />
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><img src="~/Content/Icons/svg/aperture.svg" alt="icon name" /></span>
+        <div class="card-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nome)
+                <br />
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><img src="~/Content/Icons/svg/aperture.svg" alt="icon name" /></span>
+                    </div>
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
                 </div>
-                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+            </div>
+        </div>
+
+        <div class="card-footer">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <a href="#" class="btn btn-info" data-toggle="modal" data-target="#deleteConfirmationModal">Remover</a>
+                @Html.ActionLink("Retornar a Lista", "Index", null, new { @class = "btn btn-warning" })
+            }
+        </div>
+
+        <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirmar remoção de CATEGORIA</h4>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Você está prestes a remover a Categoria: @Model.Nome.ToUpper() </p>
+                        <p><strong>Tem certeza que deseja prosseguir?</strong></p>
+                        @using (Html.BeginForm("Delete", "Categorias", FormMethod.Post, new { @id = "delete-form", role = "form" }))
+                        {
+                            @Html.HiddenFor(m => m.CategoriaID)
+                            @Html.AntiForgeryToken()
+                        }
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" onclick="$('#delete-form').submit();"> Sim, remover esta CATEGORIA</button>
+                        <button type="button" class="btn btn-danger"> Não, não remover esta CATEGORIA</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="card-footer">
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-            <input type="submit" value="Excluir CATEGORIA" class="btn btn-danger" />
-            @Html.ActionLink("Retornar a Lista", "Index", null, new { @class = "btn btn-warning" })
-        }
-    </div>
-</div>

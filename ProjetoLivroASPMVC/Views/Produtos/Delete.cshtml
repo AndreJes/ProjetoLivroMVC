@@ -1,7 +1,7 @@
 ﻿@model ProjetoLivroASPMVC.Models.Produto
 
 @{
-    ViewBag.Title = "Remover PRODUTO";
+    ViewBag.Title = "Excluir PRODUTO";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <p>Você está prestes a remover o PRODUTO: @Model.Nome.ToUpper() </p>
+                    <p>Você está prestes a remover o Produto: @Model.Nome.ToUpper() </p>
                     <p><strong>Tem certeza que deseja prosseguir?</strong></p>
                     @using (Html.BeginForm("Delete", "Produtos", FormMethod.Post, new { @id = "delete-form", role = "form" }))
                     {
