@@ -1,5 +1,4 @@
-﻿using Persistencia.Contexts;
-using Modelo.Cadastros;
+﻿using Modelo.Cadastros;
 using Modelo.Tabelas;
 using System;
 using System.Collections.Generic;
@@ -8,17 +7,18 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Serviços.Tabelas;
 
 namespace Persistencia.Controllers
 {
     public class CategoriasController : Controller
     {
-        private EFContext context = new EFContext();
+        private CategoriaServico _categoriaServico = new CategoriaServico();
 
         // GET: Categorias
         public ActionResult Index()
         {
-            return View(context.Categorias.OrderBy(c => c.Nome));
+            return View(_categoriaServico.ObterCategoriasOrdenadasPorNome());
         }
 
         // GET: Create
@@ -30,89 +30,75 @@ namespace Persistencia.Controllers
         // GET: Edit
         public ActionResult Edit(long? id)
         {
-            if(id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Categoria categoria = context.Categorias.Find(id);
-
-            if(categoria == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(categoria);
+            return ObterVisaoCategoriaPorId(id);
         }
 
         // GET: Details
         public ActionResult Details(long? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Categoria categoria = context.Categorias.Where(c => c.CategoriaID == id).Include("Produtos.Fabricante").First();
-
-            if (categoria == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(categoria);
+            return ObterVisaoCategoriaPorId(id);
         }
 
         // GET: Delete
         public ActionResult Delete(long? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Categoria categoria = context.Categorias.Find(id);
-
-            if (categoria == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(categoria);
+            return ObterVisaoCategoriaPorId(id);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Categoria categoria)
         {
-            context.Categorias.Add(categoria);
-            context.SaveChanges();
-            return RedirectToAction("Index");
+            return GravarCategoria(categoria);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Categoria categoria)
         {
-            if(ModelState.IsValid)
-            {
-                context.Entry(categoria).State = EntityState.Modified;
-                context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return RedirectToAction("Index");
+            return GravarCategoria(categoria);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(long id)
         {
-            Categoria categoria = context.Categorias.Find(id);
-            context.Categorias.Remove(categoria);
-            context.SaveChanges();
+            Categoria categoria = _categoriaServico.EliminarCategoriaPorId(id);
             TempData["Message"] = "Categoria " + categoria.Nome.ToUpper() + " removida com sucesso";
             return RedirectToAction("Index");
+        }
+
+        private ActionResult ObterVisaoCategoriaPorId(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Categoria categoria = _categoriaServico.ObterCategoriaPorId((long)id);
+
+            if (categoria == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(categoria);
+        }
+
+        private ActionResult GravarCategoria(Categoria categoria)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _categoriaServico.GravarCategoria(categoria);
+                }
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View(categoria);
+            }
         }
     }
 }

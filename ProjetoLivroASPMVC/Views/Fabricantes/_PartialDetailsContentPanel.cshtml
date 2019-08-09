@@ -1,0 +1,12 @@
+﻿@model Modelo.Cadastros.Fabricante
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Nome)
+    <br />
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"><img src="~/Content/Icons/svg/person.svg" alt="icon name" /></span>
+        </div>
+        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+    </div>
+</div>

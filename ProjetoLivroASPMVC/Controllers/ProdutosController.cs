@@ -11,8 +11,8 @@ namespace Persistencia.Controllers
     public class ProdutosController : Controller
     {
         private ProdutoServico _produtoServico = new ProdutoServico();
-        private FabricanteServico _fabricanteServico = new FabricanteServico();
         private CategoriaServico _categoriaServico = new CategoriaServico();
+        private FabricanteServico _fabricanteServico = new FabricanteServico();
 
         // GET: Produtos
         public ActionResult Index()
@@ -48,6 +48,7 @@ namespace Persistencia.Controllers
 
         // POST: Produtos/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Produto produto)
         {
             return GravarProduto(produto);
@@ -55,6 +56,7 @@ namespace Persistencia.Controllers
 
         // POST: Produtos/Edit/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Produto produto)
         {
             return GravarProduto(produto);
@@ -62,12 +64,13 @@ namespace Persistencia.Controllers
 
         // POST: Produtos/Delete/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(long id)
         {
             try
             {
                 Produto produto = _produtoServico.EliminarProdutoPorId(id);
-                TempData["Message"] = "PRODUTO " + produto.Nome.ToUpper() + " foi removido";
+                TempData["Message"] = "Produto: " + produto.Nome.ToUpper() + " foi removido";
                 return RedirectToAction("Index");
             }
             catch
@@ -115,7 +118,7 @@ namespace Persistencia.Controllers
                 {
                     _produtoServico.GravarProduto(produto);
                 }
-                return View(produto);
+                return RedirectToAction("Index");
             }
             catch
             {
