@@ -18,6 +18,7 @@ namespace Modelo.Cadastros
         public string Nome { get; set; }
 
         [DisplayName("Data de Cadastro")]
+        [DataType(DataType.Date)]
         [Required(ErrorMessage = "Você precisa informar a data de cadastro do produto")]
         public DateTime? DataCadastro { get; set; }
 
