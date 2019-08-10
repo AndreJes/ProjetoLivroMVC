@@ -98,7 +98,7 @@ namespace Persistencia.Controllers
                 {
                     _fabricanteServico.GravarFabricante(fabricante);
                 }
-                return RedirectToAction("Index");
+                return View(fabricante);
             }
             catch
             {
