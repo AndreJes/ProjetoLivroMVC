@@ -1,0 +1,7 @@
+﻿.validation-summary-valid {
+    display: none;
+}
+
+.validation-summary-errors {
+    display:normal;
+}

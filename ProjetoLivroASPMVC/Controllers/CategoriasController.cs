@@ -93,7 +93,7 @@ namespace Persistencia.Controllers
                 {
                     _categoriaServico.GravarCategoria(categoria);
                 }
-                return View(categoria);
+                return RedirectToAction("Index");
             }
             catch
             {

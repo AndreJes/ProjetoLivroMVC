@@ -1,6 +1,11 @@
 ﻿@model Modelo.Cadastros.Produto
 
+
+<link href="@Url.Content("~/Content/validation-summary.css")" rel="stylesheet" />
+
 <div>
+    @Html.ValidationSummary(false, "Verifique os seguintes erros:", new { @class = "text-danger" })
+
     <div class="form-group">
         @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
