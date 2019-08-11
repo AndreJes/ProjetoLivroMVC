@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Serviços.Cadastros;
 
-namespace Persistencia.Controllers
+namespace ProjetoLivroASPMVC.Areas.Cadastros.Controllers
 {
     public class FabricantesController : Controller
     {

@@ -11,7 +11,7 @@
     </div>
 
     <div class="card-body">
-        @Html.Partial("~/Views/Categorias/_PartialDetailsContentPanel.cshtml")
+        @Html.Partial("~/Areas/Tabelas/Views/Categorias/_PartialDetailsContentPanel.cshtml")
     </div>
 
     <div class="card-footer">
@@ -50,7 +50,7 @@
     </div>
 </div>
 
-@Html.Partial("~/Views/Produtos/_PorCategoria.cshtml", Model.Produtos.ToList())
+@Html.Partial("~/Areas/Cadastros/Views/Produtos/_PorCategoria.cshtml", Model.Produtos.ToList())
 
 @section styles{
     <link href=@Url.Content("~/Content/DataTables/css/dataTables.bootstrap4.css") rel="stylesheet" />

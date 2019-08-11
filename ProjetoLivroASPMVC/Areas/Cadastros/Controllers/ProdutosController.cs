@@ -6,7 +6,7 @@ using System.Net;
 using Serviços.Cadastros;
 using Serviços.Tabelas;
 
-namespace Persistencia.Controllers
+namespace ProjetoLivroASPMVC.Areas.Cadastros.Controllers
 {
     public class ProdutosController : Controller
     {

@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="card-header bg-primary text-white">
-        PRODUTOS registrados nesta Categoria
+        PRODUTOS registrados deste Fabricante
     </div>
 
     <div class="card-body">
@@ -11,12 +11,12 @@
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.ProdutoID)</th>
                     <th>@Html.DisplayNameFor(model => model.Nome)</th>
-                    <th>Fabricante</th>
+                    <th>Categoria</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach(var item in Model)
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>
@@ -26,12 +26,12 @@
                             @Html.DisplayFor(modelItem => item.Nome)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Fabricante.Nome)
+                            @Html.DisplayFor(modelItem => item.Categoria.Nome)
                         </td>
                         <td>
-                            @Html.ActionLink("Alterar", "Edit", "Produtos", new { id = item.ProdutoID }, new { @class = "btn btn-primary" })
-                            @Html.ActionLink("Detalhes", "Details", "Produtos", new { id = item.ProdutoID }, new { @class = "btn btn-info" })
-                            @Html.ActionLink("Excluir", "Delete", "Produtos", new { id = item.ProdutoID }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Alterar", "Edit", "Produtos", new {Area = "Cadastros" , id = item.ProdutoID }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Detalhes", "Details", "Produtos", new {Area = "Cadastros" , id = item.ProdutoID }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Excluir", "Delete", "Produtos", new {Area = "Cadastros" , id = item.ProdutoID }, new { @class = "btn btn-danger" })
                         </td>
                     </tr>
                 }

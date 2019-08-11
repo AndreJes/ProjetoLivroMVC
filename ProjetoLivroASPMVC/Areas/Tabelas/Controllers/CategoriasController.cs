@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Serviços.Tabelas;
 
-namespace Persistencia.Controllers
+namespace ProjetoLivroASPMVC.Areas.Tabelas.Controllers
 {
     public class CategoriasController : Controller
     {
