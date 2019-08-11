@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using ProjetoLivroASPMVC.Areas.Seguranca.Models;
 using ProjetoLivroASPMVC.Infraestrutura;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,40 @@ namespace ProjetoLivroASPMVC.Areas.Seguranca.Controllers
         public ActionResult Index()
         {
             return View(GerenciadorUsuario.Users);
+        }
+
+        // GET: Seguranca/Admin/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(UsuarioViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                Usuario user = new Usuario { UserName = model.Nome, Email = model.Email };
+                IdentityResult result = GerenciadorUsuario.Create(user, model.Senha);
+                if(result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+            return View(model);
+        }
+
+        private void AddErrorsFromResult(IdentityResult result)
+        {
+            foreach(string error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
         }
     }
 }
