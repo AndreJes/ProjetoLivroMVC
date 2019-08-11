@@ -10,7 +10,7 @@ namespace ProjetoLivroASPMVC.DAL
 {
     public class IdentityDbContextAplicacao : IdentityDbContext<Usuario>
     {
-        public IdentityDbContextAplicacao() : base("MySQL_UserDB") { }
+        public IdentityDbContextAplicacao() : base("IdentityDb") { }
 
         static IdentityDbContextAplicacao()
         {

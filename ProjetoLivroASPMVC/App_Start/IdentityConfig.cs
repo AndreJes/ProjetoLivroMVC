@@ -17,7 +17,7 @@ namespace ProjetoLivroASPMVC
         {
             app.CreatePerOwinContext<IdentityDbContextAplicacao>(IdentityDbContextAplicacao.Create);
             app.CreatePerOwinContext<GerenciadorUsuario>(GerenciadorUsuario.Create);
-            app.UseCookieAuthentication(new CookieAuthenticationOptions {AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie, LoginPath = new PathString("/Seguranca/Account/Login"));
+            app.UseCookieAuthentication(new CookieAuthenticationOptions { AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie, LoginPath = new PathString("/Seguranca/Account/Login") });
         }
     }
 }

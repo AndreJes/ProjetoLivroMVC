@@ -32,6 +32,9 @@ initial-scale=1.0" charset="utf-8" />
                     <li id="liProdutos" role="presentation" class="nav-link">
                         @Html.ActionLink("Produtos", "Index", "Produtos", new {Area = "Cadastros" }, new { @class = "nav-link bg-info text-white" })
                     </li>
+                    <li id="liUsuarios" role="presentation" class="nav-link">
+                        @Html.ActionLink("Usuários", "Index", "Admin", new {Area = "Seguranca" }, new { @class = "nav-link bg-info text-white"})
+                    </li>
                 </ul>
             </div>
             <div class="col-9 col-md-9">
