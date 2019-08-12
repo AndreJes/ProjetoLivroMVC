@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using ProjetoLivroASPMVC.Areas.Seguranca.Models;
 using ProjetoLivroASPMVC.Infraestrutura;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,6 +13,22 @@ namespace ProjetoLivroASPMVC.Areas.Seguranca.Controllers
 {
     public class PapelAdminController : Controller
     {
+        private void AddErrorsFromResult(IdentityResult result)
+        {
+            foreach(string error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+
+        private GerenciadorUsuario UserManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().GetUserManager<GerenciadorUsuario>();
+            }
+        }
+
         private GerenciadorPapel roleManager
         {
             get
@@ -31,9 +49,21 @@ namespace ProjetoLivroASPMVC.Areas.Seguranca.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Papel papel)
+        public ActionResult Create([Required]string nome)
         {
-            return View();
+            if(ModelState.IsValid)
+            {
+                IdentityResult result = roleManager.Create(new Papel(nome));
+                if(result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+            return View(nome);
         }
     }
 }

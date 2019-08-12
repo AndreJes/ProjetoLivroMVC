@@ -640,6 +640,7 @@
     <Content Include="Areas\Seguranca\Views\Admin\Details.cshtml" />
     <Content Include="Areas\Seguranca\Views\Account\Login.cshtml" />
     <Content Include="Areas\Seguranca\Views\PapelAdmin\Index.cshtml" />
+    <Content Include="Areas\Seguranca\Views\PapelAdmin\Create.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

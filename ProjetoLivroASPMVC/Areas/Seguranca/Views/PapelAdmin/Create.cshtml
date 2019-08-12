@@ -1,0 +1,36 @@
+﻿@model string
+
+@{
+    ViewBag.Title = "Criar novo PAPEL";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            @ViewBag.Title
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label>Nome</label>
+                <input name="Nome" value="@Model" class="form-control" />
+            </div>
+        </div>
+        <div class="card-footer">
+            <input type="submit" value="Adicionar PAPEL" class="btn btn-success" />
+            @Html.ActionLink("Retornar a lista", "Index", null, new { @class = "btn btn-warning" })
+        </div>
+    </div>
+}
+
+@section ScriptPage {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('li').removeClass("active");
+            $('#liPapeis').addClass("active");
+        });
+    </script>
+}
