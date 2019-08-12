@@ -1,0 +1,107 @@
+﻿@using ProjetoLivroASPMVC.Areas.Seguranca.Models
+@model PapelEditModel
+
+@{
+    ViewBag.Title = "Editar Usuários no Papel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ValidationSummary()
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+    <input type="hidden" name="nomePapel" value="@Model.Role.Name" />
+    <div class="card">
+        <div class="card-header">
+            Adicionar para @Model.Role.Name
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                @if (Model.NaoMembros.Count() == 0)
+                {
+                    <tr>
+                        <td>
+                            Todos os usuários são membros
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            Usuários
+                        </td>
+                        <td>
+                            Adicionar ao Papel
+                        </td>
+                    </tr>
+                    foreach (Usuario user in Model.NaoMembros)
+                    {
+                        <tr>
+                            <td>
+                                @user.UserName
+                            </td>
+                            <td>
+                                <input type="checkbox" name="IdsParaAdicionar" value="@user.Id" />
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            Adicionar para @Model.Role.Name
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                @if (Model.Membros.Count() == 0)
+                {
+                    <tr>
+                        <td>
+                            Nenhum Membro registrado
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            Usuários
+                        </td>
+                        <td>
+                            Remover do papel
+                        </td>
+                    </tr>
+                    foreach (Usuario user in Model.Membros)
+                    {
+                        <tr>
+                            <td>
+                                @user.UserName
+                            </td>
+                            <td>
+                                <input type="checkbox" name="IdsParaRemover" value="@user.Id" />
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">
+        Gravar Alterações
+    </button>
+    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-warning" })
+}
+
+@section ScriptPage {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('li').removeClass("active");
+            $('#liPapeis').addClass("active");
+        });
+    </script>
+}
+

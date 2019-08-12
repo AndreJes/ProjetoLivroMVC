@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,7 +16,7 @@ namespace ProjetoLivroASPMVC.Areas.Seguranca.Controllers
     {
         private void AddErrorsFromResult(IdentityResult result)
         {
-            foreach(string error in result.Errors)
+            foreach (string error in result.Errors)
             {
                 ModelState.AddModelError("", error);
             }
@@ -29,7 +30,7 @@ namespace ProjetoLivroASPMVC.Areas.Seguranca.Controllers
             }
         }
 
-        private GerenciadorPapel roleManager
+        private GerenciadorPapel RoleManager
         {
             get
             {
@@ -39,7 +40,7 @@ namespace ProjetoLivroASPMVC.Areas.Seguranca.Controllers
         // GET: Seguranca/PapelAdmin
         public ActionResult Index()
         {
-            return View(roleManager.Roles);
+            return View(RoleManager.Roles);
         }
 
         public ActionResult Create()
@@ -47,14 +48,25 @@ namespace ProjetoLivroASPMVC.Areas.Seguranca.Controllers
             return View();
         }
 
+        public ActionResult Edit(string id)
+        {
+            Papel papel = RoleManager.FindById(id);
+            string[] membersIDs = papel.Users.Select(x => x.UserId).ToArray();
+            IEnumerable<Usuario> membros = UserManager.Users.Where(x => membersIDs.Any(y => y == x.Id));
+            IEnumerable<Usuario> naoMembros = UserManager.Users.Except(membros);
+
+            return View(new PapelEditModel { Role = papel, Membros = membros, NaoMembros = naoMembros });
+
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Required]string nome)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                IdentityResult result = roleManager.Create(new Papel(nome));
-                if(result.Succeeded)
+                IdentityResult result = RoleManager.Create(new Papel(nome));
+                if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
                 }
@@ -64,6 +76,36 @@ namespace ProjetoLivroASPMVC.Areas.Seguranca.Controllers
                 }
             }
             return View(nome);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(PapelModificationModel model)
+        {
+            IdentityResult result;
+            if (ModelState.IsValid)
+            {
+                foreach (string userid in model.IdsParaAdicionar ?? new string[] { })
+                {
+                    result = UserManager.AddToRole(userid, model.NomePapel);
+                    if (!result.Succeeded)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                }
+
+                foreach (string userid in model.IdsParaRemover ?? new string[] { })
+                {
+                    result = UserManager.RemoveFromRole(userid, model.NomePapel);
+                    if (!result.Succeeded)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                }
+                
+                return RedirectToAction("Index");
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
     }
 }
