@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using ProjetoLivroASPMVC.Infraestrutura
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width,
@@ -15,7 +17,15 @@ initial-scale=1.0" charset="utf-8" />
                 <h1 class="text-light">
                     Desenvolvimento em ASP.NET MVC
                     <small class="text-secondary">
-                        Utilizando o Bootstrap
+                        @if (Html.GetAuthenticatedUser().ToString() != "")
+                        {
+                            @Html.GetAuthenticatedUser()
+                            @Html.ActionLink("Sair", "Logout", "Account", new { Area = "Seguranca" }, new { @class = "btn btn-sm btn-outline-danger text-black" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Entrar", "Login", "Account", new { Area = "Seguranca" }, new { @class = "btn btn-sm btn-outline-success text-white" })
+                        }
                     </small>
                 </h1>
             </div>

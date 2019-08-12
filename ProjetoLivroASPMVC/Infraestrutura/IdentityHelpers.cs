@@ -16,6 +16,11 @@ namespace ProjetoLivroASPMVC.Infraestrutura
             GerenciadorUsuario mgr = HttpContext.Current.GetOwinContext().GetUserManager<GerenciadorUsuario>();
             return new MvcHtmlString(mgr.FindByIdAsync(id).Result.UserName);
         }
+
+        public static MvcHtmlString GetAuthenticatedUser(this HtmlHelper html)
+        {
+            return new MvcHtmlString(HttpContext.Current.User.Identity.Name);
+        }
     }
 
 }

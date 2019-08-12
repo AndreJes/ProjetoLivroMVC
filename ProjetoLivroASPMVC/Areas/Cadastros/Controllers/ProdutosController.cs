@@ -15,6 +15,8 @@ namespace ProjetoLivroASPMVC.Areas.Cadastros.Controllers
         private FabricanteServico _fabricanteServico = new FabricanteServico();
 
         // GET: Produtos
+        [Authorize(Roles = "Gerente de Produtos")]
+        [Authorize(Roles = "Administradores")]
         public ActionResult Index()
         {
             return View(_produtoServico.ObterProdutosOrdenadosPorNome());
