@@ -1,0 +1,44 @@
+﻿@model ProjetoLivroASPMVC.Areas.Seguranca.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            Acessar sistema
+        </div>
+
+        <div class="card-body">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nome, new { @class = "form-check" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger form-check" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Senha, new { @class = "form-check" })
+                <div class="col-md-8">
+                    @Html.PasswordFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger form-check" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-footer">
+            <div class="col-md-10">
+                <input type="submit" value="Acessar" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+

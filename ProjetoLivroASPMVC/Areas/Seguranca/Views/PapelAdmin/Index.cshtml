@@ -1,0 +1,86 @@
+﻿@using ProjetoLivroASPMVC.Areas.Seguranca.Models
+@using ProjetoLivroASPMVC.Infraestrutura
+@model IEnumerable<Papel>
+
+@{
+    ViewBag.Title = "Listando PAPEIS registrados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        @ViewBag.Title
+    </div>
+
+    <div class="card-body">
+        <table class="table table-hover">
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Usuários</th>
+                <th></th>
+            </tr>
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td colspan="4" class="text-center">
+                        Sem papeis registrados
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (Papel role in Model)
+                {
+                    <tr>
+                        <td>@role.Id</td>
+                        <td>@role.Name</td>
+                        <td>
+                            @if (role.Users == null)
+                            {
+                                @: Sem usuários no papel
+                            }
+                            else
+                            {
+                                <p>
+                                    @string.Join(", ", role.Users.Select(x => Html.GetUserName(x.UserId)))
+                                </p>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Delete", "PapelAdmin", new { id = role.Id }))
+                            {
+                                @Html.ActionLink("Alterar", "Edit", new { id = role.Id }, new { @class = "btn btn-primary btn-sm" })
+                                <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+    <div class="card-footer">
+        @Html.ActionLink("Criar Novo Papel", "Create", null, new { @class = "btn btn-success" })
+    </div>
+</div>
+
+@section styles{
+    <link href="@Url.Content("~/Content/DataTables/css/dataTables.bootstrap4.css")" rel="stylesheet" />
+}
+
+@section ScriptPage{
+    <script src="@Url.Content("~/Scripts/DataTables/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/Scripts/DataTables/dataTables.bootstrap4.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () { $('.table').DataTable(); });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('li').removeClass("active");
+            $('#liPapeis').addClass("active");
+        });
+    </script>
+}
+
+
