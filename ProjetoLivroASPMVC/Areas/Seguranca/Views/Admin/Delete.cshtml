@@ -1,0 +1,84 @@
+﻿@model ProjetoLivroASPMVC.Areas.Seguranca.Models.Usuario
+
+@{
+    ViewBag.Title = "Remover Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        @ViewBag.Title
+    </div>
+
+    <div class="card-body">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Id)
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><img src="~/Content/Icons/svg/person.svg" alt="icon name" /></span>
+                </div>
+                @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName)
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><img src="~/Content/Icons/svg/person.svg" alt="icon name" /></span>
+                </div>
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email)
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><img src="~/Content/Icons/svg/person.svg" alt="icon name" /></span>
+                </div>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <a href="#" class="btn btn-info" data-toggle="modal" data-target="#deleteConfirmationModal">Remover</a>
+        @Html.ActionLink("Retornar a lista", "Index", null, new { @class = "btn btn-warning" })
+    </div>
+
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmar remoção de USUÁRIO</h4>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Você está prestes a remover o Produto: @Model.Id.ToUpper() </p>
+                    <p><strong>Tem certeza que deseja prosseguir?</strong></p>
+                    @using (Html.BeginForm("Delete", "Produtos", FormMethod.Post, new { @id = "delete-form", role = "form" }))
+                    {
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.AntiForgeryToken()
+                    }
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="$('#delete-form').submit();"> Sim, remover este USUÁRIO</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> Não, não remover este USUÁRIO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section ScriptPage {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('li').removeClass("active");
+            $('#liUsuarios').addClass("active");
+        });
+    </script>
+}
